@@ -1,5 +1,5 @@
 // Core
-export { RippleTextEngine } from './core/engine';
+export { RippleTextEngine } from "./core/engine";
 export type {
   FieldEffect,
   FieldSample,
@@ -8,13 +8,13 @@ export type {
   RippleSource,
   RippleTextSettings,
   SettingsInput,
-} from './core/types';
+} from "./core/types";
 
 // Built-in effects
-export { WaterField } from './effects/waterField';
-export type { WaterFieldSettings } from './effects/waterField';
-export { WaveRipple } from './effects/waveRipple';
-export type { WaveRippleSettings } from './effects/waveRipple';
+export { WaterField } from "./effects/waterField";
+export type { WaterFieldSettings } from "./effects/waterField";
+export { WaveRipple } from "./effects/waveRipple";
+export type { WaveRippleSettings } from "./effects/waveRipple";
 
 // Utilities
-export { extractTextFromDOM, layoutText } from './utils/extractText';
+export { extractTextFromDOM, layoutText } from "./utils/extractText";

@@ -1,4 +1,4 @@
-import type { LetterInput } from '../core/types';
+import type { LetterInput } from "../core/types";
 
 /**
  * Walk the DOM under `root`, extract every visible character with its
@@ -14,7 +14,7 @@ export function extractTextFromDOM(
 
   let node: Node | null = walker.nextNode();
   while (node && letters.length < maxChars) {
-    const text = node.textContent ?? '';
+    const text = node.textContent ?? "";
     if (!text.trim()) {
       node = walker.nextNode();
       continue;
@@ -28,9 +28,9 @@ export function extractTextFromDOM(
 
     const style = getComputedStyle(parent);
     if (
-      style.display === 'none' ||
-      style.visibility === 'hidden' ||
-      style.opacity === '0'
+      style.display === "none" ||
+      style.visibility === "hidden" ||
+      style.opacity === "0"
     ) {
       node = walker.nextNode();
       continue;
@@ -88,10 +88,10 @@ export function layoutText(
   const letters: LetterInput[] = [];
   let x = margin;
   let y = margin + fontSize;
-  const words = text.split(' ');
+  const words = text.split(" ");
 
   for (const word of words) {
-    const wordWidth = ctx.measureText(word + ' ').width;
+    const wordWidth = ctx.measureText(word + " ").width;
     if (x + wordWidth > margin + maxWidth && x > margin) {
       x = margin;
       y += lineHeight;
@@ -103,7 +103,7 @@ export function layoutText(
       letters.push({ char, x, y, font });
       x += charWidth;
     }
-    x += ctx.measureText(' ').width;
+    x += ctx.measureText(" ").width;
   }
 
   return letters;

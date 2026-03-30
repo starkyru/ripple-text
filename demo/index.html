@@ -1,71 +1,231 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ripple-text demo</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #020814; overflow: hidden; font-family: system-ui; }
-    canvas { display: block; }
-    #controls {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      background: rgba(10, 20, 40, 0.85);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(100, 180, 255, 0.2);
-      border-radius: 12px;
-      padding: 16px 20px;
-      color: #b0d4ff;
-      font-size: 12px;
-      width: 260px;
-      z-index: 10;
-    }
-    #controls h3 {
-      margin: 0 0 12px; font-size: 13px; color: #e0f0ff;
-      letter-spacing: 0.5px; text-transform: uppercase;
-      border-bottom: 1px solid rgba(100,180,255,0.15); padding-bottom: 8px;
-    }
-    .row {
-      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-    }
-    .row label { min-width: 90px; font-size: 11px; color: #6a9ec8; }
-    .row input[type="range"] { flex: 1; accent-color: #4da6ff; height: 4px; }
-    .row .val {
-      width: 40px; text-align: right; font-variant-numeric: tabular-nums;
-      color: #7ec8ff; font-size: 11px;
-    }
-    .section { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(100,180,255,0.1); }
-    .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #6a9ec8; margin-bottom: 6px; }
-  </style>
-</head>
-<body>
-  <canvas id="canvas"></canvas>
-  <div id="controls">
-    <h3>ripple-text</h3>
-    <div class="section-title">Physics</div>
-    <div class="row"><label>Force</label><input type="range" id="s-force" min="1000" max="60000" step="500" value="18000"><span class="val" id="v-force">18000</span></div>
-    <div class="row"><label>Spring</label><input type="range" id="s-spring" min="0.5" max="15" step="0.5" value="3"><span class="val" id="v-spring">3</span></div>
-    <div class="row"><label>Dark spring</label><input type="range" id="s-darkspring" min="0" max="30" step="1" value="8"><span class="val" id="v-darkspring">8</span></div>
-    <div class="row"><label>Damping</label><input type="range" id="s-damping" min="0.5" max="0.99" step="0.01" value="0.88"><span class="val" id="v-damping">0.88</span></div>
-    <div class="row"><label>Max disp.</label><input type="range" id="s-maxdisp" min="5" max="300" step="5" value="120"><span class="val" id="v-maxdisp">120</span></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ripple-text demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #020814;
+        overflow: hidden;
+        font-family: system-ui;
+      }
+      canvas {
+        display: block;
+      }
+      #controls {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        background: rgba(10, 20, 40, 0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(100, 180, 255, 0.2);
+        border-radius: 12px;
+        padding: 16px 24px;
+        color: #b0d4ff;
+        font-size: 12px;
+        width: 320px;
+        z-index: 10;
+      }
+      #controls h3 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        color: #e0f0ff;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(100, 180, 255, 0.15);
+        padding-bottom: 8px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .row label {
+        min-width: 90px;
+        font-size: 11px;
+        color: #6a9ec8;
+      }
+      .row input[type="range"] {
+        flex: 1;
+        accent-color: #4da6ff;
+        height: 4px;
+      }
+      .row .val {
+        min-width: 48px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        color: #7ec8ff;
+        font-size: 11px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .section {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(100, 180, 255, 0.1);
+      }
+      .section-title {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #6a9ec8;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="controls">
+      <h3>ripple-text</h3>
+      <div class="section-title">Physics</div>
+      <div class="row">
+        <label>Force</label
+        ><input
+          type="range"
+          id="s-force"
+          min="1000"
+          max="60000"
+          step="500"
+          value="18000"
+        /><span class="val" id="v-force">18000</span>
+      </div>
+      <div class="row">
+        <label>Spring</label
+        ><input
+          type="range"
+          id="s-spring"
+          min="0.5"
+          max="15"
+          step="0.5"
+          value="3"
+        /><span class="val" id="v-spring">3</span>
+      </div>
+      <div class="row">
+        <label>Dark spring</label
+        ><input
+          type="range"
+          id="s-darkspring"
+          min="0"
+          max="30"
+          step="1"
+          value="8"
+        /><span class="val" id="v-darkspring">8</span>
+      </div>
+      <div class="row">
+        <label>Damping</label
+        ><input
+          type="range"
+          id="s-damping"
+          min="0.5"
+          max="0.99"
+          step="0.01"
+          value="0.88"
+        /><span class="val" id="v-damping">0.88</span>
+      </div>
+      <div class="row">
+        <label>Max disp.</label
+        ><input
+          type="range"
+          id="s-maxdisp"
+          min="5"
+          max="300"
+          step="5"
+          value="120"
+        /><span class="val" id="v-maxdisp">120</span>
+      </div>
 
-    <div class="section">
-      <div class="section-title">Water</div>
-      <div class="row"><label>Scale</label><input type="range" id="s-nscale" min="0.001" max="0.015" step="0.0005" value="0.004"><span class="val" id="v-nscale">0.004</span></div>
-      <div class="row"><label>Speed</label><input type="range" id="s-tspeed" min="0.0001" max="0.002" step="0.00005" value="0.0003"><span class="val" id="v-tspeed">0.0003</span></div>
-      <div class="row"><label>Sharpness</label><input type="range" id="s-sharp" min="0.1" max="2.0" step="0.05" value="0.6"><span class="val" id="v-sharp">0.6</span></div>
-    </div>
+      <div class="section">
+        <div class="section-title">Water</div>
+        <div class="row">
+          <label>Scale</label
+          ><input
+            type="range"
+            id="s-nscale"
+            min="0.001"
+            max="0.015"
+            step="0.0005"
+            value="0.004"
+          /><span class="val" id="v-nscale">0.004</span>
+        </div>
+        <div class="row">
+          <label>Speed</label
+          ><input
+            type="range"
+            id="s-tspeed"
+            min="0.0001"
+            max="0.002"
+            step="0.00005"
+            value="0.0003"
+          /><span class="val" id="v-tspeed">0.0003</span>
+        </div>
+        <div class="row">
+          <label>Sharpness</label
+          ><input
+            type="range"
+            id="s-sharp"
+            min="0.1"
+            max="2.0"
+            step="0.05"
+            value="0.6"
+          /><span class="val" id="v-sharp">0.6</span>
+        </div>
+      </div>
 
-    <div class="section">
-      <div class="section-title">Ripples</div>
-      <div class="row"><label>Amplitude</label><input type="range" id="s-ramp" min="0.05" max="1.5" step="0.05" value="1.25"><span class="val" id="v-ramp">1.25</span></div>
-      <div class="row"><label>Wavelength</label><input type="range" id="s-rwlen" min="100" max="1500" step="50" value="800"><span class="val" id="v-rwlen">800</span></div>
-      <div class="row"><label>Decay</label><input type="range" id="s-rdecay" min="0.0005" max="0.01" step="0.0002" value="0.0048"><span class="val" id="v-rdecay">0.0048</span></div>
-      <div class="row"><label>Force</label><input type="range" id="s-rforce" min="100" max="5000" step="50" value="2350"><span class="val" id="v-rforce">2350</span></div>
+      <div class="section">
+        <div class="section-title">Ripples</div>
+        <div class="row">
+          <label>Amplitude</label
+          ><input
+            type="range"
+            id="s-ramp"
+            min="0.05"
+            max="1.5"
+            step="0.05"
+            value="1.25"
+          /><span class="val" id="v-ramp">1.25</span>
+        </div>
+        <div class="row">
+          <label>Wavelength</label
+          ><input
+            type="range"
+            id="s-rwlen"
+            min="100"
+            max="1500"
+            step="50"
+            value="800"
+          /><span class="val" id="v-rwlen">800</span>
+        </div>
+        <div class="row">
+          <label>Decay</label
+          ><input
+            type="range"
+            id="s-rdecay"
+            min="0.0005"
+            max="0.01"
+            step="0.0002"
+            value="0.0048"
+          /><span class="val" id="v-rdecay">0.0048</span>
+        </div>
+        <div class="row">
+          <label>Force</label
+          ><input
+            type="range"
+            id="s-rforce"
+            min="100"
+            max="5000"
+            step="50"
+            value="2350"
+          /><span class="val" id="v-rforce">2350</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <script type="module" src="./main.ts"></script>
-</body>
+    <script type="module" src="./main.ts"></script>
+  </body>
 </html>

@@ -5,7 +5,7 @@ import type {
   RippleSource,
   RippleTextSettings,
   SettingsInput,
-} from './types';
+} from "./types";
 
 const DT = 1 / 60;
 
@@ -18,7 +18,7 @@ const DEFAULTS: RippleTextSettings = {
   fieldScale: 3,
   rippleInterval: 90,
   colorBuckets: 10,
-  bgColor: 'rgb(255,254,250)',
+  bgColor: "rgb(255,254,250)",
   showFps: false,
   buildColors(n: number) {
     const colors: string[] = [];
@@ -73,7 +73,7 @@ export class RippleTextEngine {
     settings?: SettingsInput,
   ) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d')!;
+    this.ctx = canvas.getContext("2d")!;
     this.field = field;
     this.ripple = ripple;
     this.settings = { ...DEFAULTS, ...settings };
@@ -178,16 +178,16 @@ export class RippleTextEngine {
     if (this.running) this.stop();
     this.running = true;
 
-    this.canvas.addEventListener('mousedown', this._onDown);
-    this.canvas.addEventListener('mousemove', this._onMove);
-    window.addEventListener('mouseup', this._onUp);
-    this.canvas.addEventListener('touchstart', this._onTouchStart, {
+    this.canvas.addEventListener("mousedown", this._onDown);
+    this.canvas.addEventListener("mousemove", this._onMove);
+    window.addEventListener("mouseup", this._onUp);
+    this.canvas.addEventListener("touchstart", this._onTouchStart, {
       passive: true,
     });
-    this.canvas.addEventListener('touchmove', this._onTouchMove, {
+    this.canvas.addEventListener("touchmove", this._onTouchMove, {
       passive: true,
     });
-    window.addEventListener('touchend', this._onTouchEnd);
+    window.addEventListener("touchend", this._onTouchEnd);
 
     const loop = (time: number) => {
       if (!this.running) return;
@@ -215,12 +215,12 @@ export class RippleTextEngine {
     this.pointerDown = false;
     this.pointerSpeed = 0;
 
-    this.canvas.removeEventListener('mousedown', this._onDown);
-    this.canvas.removeEventListener('mousemove', this._onMove);
-    window.removeEventListener('mouseup', this._onUp);
-    this.canvas.removeEventListener('touchstart', this._onTouchStart);
-    this.canvas.removeEventListener('touchmove', this._onTouchMove);
-    window.removeEventListener('touchend', this._onTouchEnd);
+    this.canvas.removeEventListener("mousedown", this._onDown);
+    this.canvas.removeEventListener("mousemove", this._onMove);
+    window.removeEventListener("mouseup", this._onUp);
+    this.canvas.removeEventListener("touchstart", this._onTouchStart);
+    this.canvas.removeEventListener("touchmove", this._onTouchMove);
+    window.removeEventListener("touchend", this._onTouchEnd);
   }
 
   // ——— Private ———
@@ -308,14 +308,14 @@ export class RippleTextEngine {
     const invMax = 1 / s.maxDisplacement;
     const bucketScale = s.colorBuckets - 1;
 
-    ctx.textBaseline = 'alphabetic';
-    let lastFont = '';
+    ctx.textBaseline = "alphabetic";
+    let lastFont = "";
 
     for (const letter of this.letters) {
       const dx = letter.x - letter.ox;
       const dy = letter.y - letter.oy;
       const t = Math.min(Math.sqrt(dx * dx + dy * dy) * invMax, 1);
-      const bucket = ((t * bucketScale + 0.5) | 0);
+      const bucket = (t * bucketScale + 0.5) | 0;
 
       if (letter.font !== lastFont) {
         ctx.font = letter.font;
@@ -326,9 +326,9 @@ export class RippleTextEngine {
     }
 
     if (s.showFps) {
-      ctx.font = '11px monospace';
-      ctx.textBaseline = 'bottom';
-      ctx.fillStyle = 'rgba(100,180,255,0.4)';
+      ctx.font = "11px monospace";
+      ctx.textBaseline = "bottom";
+      ctx.fillStyle = "rgba(100,180,255,0.4)";
       const txt = `${this.fpsDisplay} fps | ${this.letters.length} chars | ${this.ripple.activeCount()} ripples`;
       const tw = ctx.measureText(txt).width;
       ctx.fillText(txt, W - tw - 10, H - 10);

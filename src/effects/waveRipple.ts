@@ -1,4 +1,4 @@
-import type { RippleSource } from '../core/types';
+import type { RippleSource } from "../core/types";
 
 interface Ripple {
   cx: number;

@@ -1,4 +1,4 @@
-import type { FieldEffect, FieldSample } from '../core/types';
+import type { FieldEffect, FieldSample } from "../core/types";
 
 // ——— Simplex noise ———
 const F2 = 0.5 * (Math.sqrt(3) - 1);
@@ -33,13 +33,27 @@ function simplex2(x: number, y: number): number {
   const y2 = y0 - 1 + 2 * G2;
   const ii = i & 255;
   const jj = j & 255;
-  let n0 = 0, n1 = 0, n2 = 0;
+  let n0 = 0,
+    n1 = 0,
+    n2 = 0;
   let t0 = 0.5 - x0 * x0 - y0 * y0;
-  if (t0 >= 0) { t0 *= t0; const gi = permMod8[ii + perm[jj]]; n0 = t0 * t0 * (gx[gi] * x0 + gy[gi] * y0); }
+  if (t0 >= 0) {
+    t0 *= t0;
+    const gi = permMod8[ii + perm[jj]];
+    n0 = t0 * t0 * (gx[gi] * x0 + gy[gi] * y0);
+  }
   let t1 = 0.5 - x1 * x1 - y1 * y1;
-  if (t1 >= 0) { t1 *= t1; const gi = permMod8[ii + i1 + perm[jj + j1]]; n1 = t1 * t1 * (gx[gi] * x1 + gy[gi] * y1); }
+  if (t1 >= 0) {
+    t1 *= t1;
+    const gi = permMod8[ii + i1 + perm[jj + j1]];
+    n1 = t1 * t1 * (gx[gi] * x1 + gy[gi] * y1);
+  }
   let t2 = 0.5 - x2 * x2 - y2 * y2;
-  if (t2 >= 0) { t2 *= t2; const gi = permMod8[ii + 1 + perm[jj + 1]]; n2 = t2 * t2 * (gx[gi] * x2 + gy[gi] * y2); }
+  if (t2 >= 0) {
+    t2 *= t2;
+    const gi = permMod8[ii + 1 + perm[jj + 1]];
+    n2 = t2 * t2 * (gx[gi] * x2 + gy[gi] * y2);
+  }
   return 70 * (n0 + n1 + n2);
 }
 
@@ -90,9 +104,12 @@ export class WaterField implements FieldEffect {
       const sharp = this.settings.sharpness;
       const usePow = Math.abs(sharp - 1) > 0.01 && Math.abs(sharp - 0.5) > 0.01;
       const useSqrt = Math.abs(sharp - 0.5) < 0.01;
-      const t07 = t * 0.7, t05 = t * 0.5;
-      const t04 = t * 0.4, t03 = t * 0.3;
-      const t02 = t * 0.2, t06 = t * 0.6;
+      const t07 = t * 0.7,
+        t05 = t * 0.5;
+      const t04 = t * 0.4,
+        t03 = t * 0.3;
+      const t02 = t * 0.2,
+        t06 = t * 0.6;
 
       for (let y = 0; y < h; y++) {
         const ny = y * scale;
@@ -118,8 +135,10 @@ export class WaterField implements FieldEffect {
     const { w, h, brightness, gradXBuf, gradYBuf } = this;
     const w1 = w - 1.001;
     const h1 = h - 1.001;
-    if (x < 0) x = 0; else if (x > w1) x = w1;
-    if (y < 0) y = 0; else if (y > h1) y = h1;
+    if (x < 0) x = 0;
+    else if (x > w1) x = w1;
+    if (y < 0) y = 0;
+    else if (y > h1) y = h1;
 
     const ix = x | 0;
     const iy = y | 0;
@@ -148,8 +167,10 @@ export class WaterField implements FieldEffect {
       for (let x = 0; x < w; x++) {
         const xm = x > 1 ? x - 2 : 0;
         const xp = x < w - 2 ? x + 2 : w - 1;
-        gradXBuf[row + x] = (brightness[row + xp] - brightness[row + xm]) * 0.25;
-        gradYBuf[row + x] = (brightness[below + x] - brightness[above + x]) * 0.25;
+        gradXBuf[row + x] =
+          (brightness[row + xp] - brightness[row + xm]) * 0.25;
+        gradYBuf[row + x] =
+          (brightness[below + x] - brightness[above + x]) * 0.25;
       }
     }
   }
