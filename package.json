@@ -1,6 +1,6 @@
 {
   "name": "ripple-text",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Physics-driven text effect with pluggable field and ripple algorithms",
   "main": "dist/index.js",
