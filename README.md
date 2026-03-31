@@ -6,6 +6,8 @@ water caustics.
 
 [Demo & homepage](https://ilia.to)
 
+![ripple-text demo](demo/screenshot.png)
+
 ## Install
 
 ```bash
